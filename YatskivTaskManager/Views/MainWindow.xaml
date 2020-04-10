@@ -1,0 +1,79 @@
+﻿<Window x:Class="YatskivTaskManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:local="clr-namespace:YatskivTaskManager"
+        mc:Ignorable="d"
+        Height="450" Width="800">
+    <Grid Margin="0,0,-0.4,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Menu HorizontalAlignment="Left" VerticalAlignment="Top" Background="#f1f1f1"
+              Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0" Grid.RowSpan="1"  Width="794">
+            <MenuItem Width="110" Height="30" Header="File" >
+                <MenuItem Header="Exit" Command="{Binding Stop}"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <DataGrid Name="ProcessGrid" IsReadOnly="True"
+                  SelectedItem="{Binding SelectedProcess, Mode=TwoWay}" SelectionUnit="FullRow"
+                  ItemsSource="{Binding ViewSource.View}" 
+                  SelectionMode="Single" CanUserSortColumns="True" AutoGenerateColumns="False"
+                  Background="#ffffff"
+                  Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="4" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Value.ID}" SortDirection="{Binding SortDir}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Name"  Binding="{Binding Value.Name}"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="Activity" Binding="{Binding Value.IsActive, Mode=OneWay}"/>
+                <DataGridTextColumn Header="RAM" Binding="{Binding Value.RAM}"/>
+                <DataGridTextColumn Header="CPU" Binding="{Binding Value.CPU}"/>
+                <DataGridTextColumn Header="Threads amount" Binding="{Binding Value.ThreadsAmount}"></DataGridTextColumn>
+                <DataGridTextColumn Header="User name" Binding="{Binding Value.UserName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Start date" Binding="{Binding Value.Time, Mode=OneWay}"></DataGridTextColumn>
+                <DataGridTextColumn Header="File Path" Binding="{Binding Value.FileInfo}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Content="Modules" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"
+               Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="1" Grid.RowSpan="1" />
+        <DataGrid Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="2" Grid.RowSpan="1"  ItemsSource="{Binding ProcessModules}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding ModuleName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Path" Binding="{Binding FileName}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Label Content="Treads" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"
+               Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="3" Grid.RowSpan="1" />
+        <DataGrid ItemsSource="{Binding ProcessThreads}" AutoGenerateColumns="False" 
+                  Grid.Column="3" Grid.ColumnSpan="1" Grid.Row="4" Grid.RowSpan="1" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}"></DataGridTextColumn>
+                <DataGridTextColumn Header="State" Binding="{Binding ThreadState}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Start date" Binding="{Binding Time}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <TabPanel HorizontalAlignment="Left" VerticalAlignment="Top" Background="#f1f1f1"
+                  Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="5" Grid.RowSpan="1"  Width="794" >
+            <Button Content="Завершити процес" HorizontalAlignment="Left" Width="169" Height="25" Margin="10,5,0,0.4" Command="{Binding Stop}" />
+            <Button Content="Відкрити папку" HorizontalAlignment="Left" Width="169" Height="25" Margin="4.8,5,-173.8,0.4" Command="{Binding OpenFolder}" />
+        </TabPanel>
+
+    </Grid>
+</Window>
